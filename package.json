@@ -1,0 +1,69 @@
+{
+  "name": "hapi-imagemin-proxy",
+  "version": "3.0.0",
+  "description": "Hapi proxy for serving optimized images",
+  "author": "Frederic Hemberger (https://frederic-hemberger.de/)",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {
+    "lab": "NODE_ENV=test lab -L --lint-warnings-threshold 99999 --globals __core-js_shared__,__RESOLVED_TMP_DIR__,Atomics,BigInt,BigInt64Array,BigUint64Array,SharedArrayBuffer,URL,URLSearchParams,WebAssembly",
+    "test": "npm run lab -- test/*.js",
+    "coverage": "npm run lab -- -c",
+    "coverage:html": "npm run coverage -- -r html -o coverage.html",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "hapi",
+    "image",
+    "images",
+    "optimize",
+    "imageoptim",
+    "imagemin",
+    "imagemagick",
+    "graphicsmagick",
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "svg",
+    "proxy"
+  ],
+  "dependencies": {
+    "@hapi/boom": "^9.1.0",
+    "@hapi/catbox": "^11.1.0",
+    "@hapi/catbox-memory": "^5.0.0",
+    "generaterr": "^1.5.0",
+    "@hapi/hoek": "^9.0.4",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-gm": "^2.0.2",
+    "imagemin-jpegoptim": "^6.0.0",
+    "imagemin-pngquant": "^8.0.0",
+    "imagemin-svgo": "^7.1.0",
+    "@hapi/joi": "^17.1.1",
+    "ms": "^2.1.1",
+    "promise.pipe": "^3.0.0",
+    "snyk": "^1.323.0",
+    "@hapi/wreck": "17.x.x",
+    "xregexp": "^4.3.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "@hapi/code": "8.x.x",
+    "@hapi/eslint-config-hapi": "13.0.2",
+    "@hapi/eslint-plugin-hapi": "4.x.x",
+    "@hapi/hapi": "19.x.x",
+    "@hapi/lab": "22.x.x",
+    "pre-commit": "^1.2.2",
+    "proxyquire": "^1.8.0",
+    "sinon": "^9.0.2"
+  },
+  "snyk": true
+}
