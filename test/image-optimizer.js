@@ -15,20 +15,24 @@ const it = lab.it;
 // Test stubs
 /* eslint-disable brace-style */
 const jpeg = Buffer.from(new Uint8Array([0xff, 0xd8]));
-const imageminGmStub = {
-    convert: Sinon.stub().returns(() => {
-        Promise.resolve(jpeg);
-    }),
-    resize: Sinon.stub().returns(() => {
-        Promise.resolve(jpeg);
-    })
-};
+const imageminGmStub = Sinon.stub().callsFake(() => {
+    return {
+        convert: Sinon.stub().returns(() => {
+            Promise.resolve(jpeg);
+        }),
+        resize: Sinon.stub().returns(() => {
+            Promise.resolve(jpeg);
+        })
+    };
+});
 const imageOptimizer = proxyquire('../lib/image-optimizer.js', {
     'imagemin-gm': imageminGmStub
 });
 /* eslint-enable brace-style */
-
 describe('Image Optimizer', () => {
+    lab.afterEach(() => {
+        Sinon.restore();
+    });
     describe('fullPath', () => {
         it('should return a valid path for local files', () => {
             expect(imageOptimizer.fullPath('/foo/bar', '/baz.jpg')).to.equal(
@@ -89,12 +93,16 @@ describe('Image Optimizer', () => {
         /* eslint-disable brace-style */
         it('should convert image formats', () => {
             imageOptimizer.optimize(jpeg, { format: 'png', plugins: [] });
-            expect(imageminGmStub.convert.calledOnce).to.be.true();
+            expect(
+                imageminGmStub.firstCall.returnValue.convert.calledOnce
+            ).to.be.true();
         });
 
         it('should resize the image', () => {
             imageOptimizer.optimize(jpeg, { width: 100, plugins: [] });
-            expect(imageminGmStub.resize.calledOnce).to.be.true();
+            expect(
+                imageminGmStub.firstCall.returnValue.resize.calledOnce
+            ).to.be.true();
         });
 
         it('should pass the original buffer if no plugins were given', async () => {
